@@ -1,0 +1,53 @@
+# include <bits/stdc++.h>
+using namespace std;
+
+class Node{
+    public:
+       int data;
+       Node* next;
+       
+    //for initializing the above objects
+    Node (int data1)
+    {
+        data = data1;
+        next = nullptr;
+    }
+};
+
+Node* convertarr2LL(vector<int>& arr)
+{
+    Node* head = new Node(arr[0]);
+    Node* mover = head;
+    
+    for(int i=1;i<arr.size();i++)
+    {
+        Node* temp = new Node(arr[i]);
+        mover->next = temp;
+        mover = temp;
+    }
+    return head;
+}
+
+bool exists(Node* head, int val)
+{
+    Node* temp = head;
+    while(temp)
+    {
+        if(temp->data == val) return true;
+        else
+        temp = temp->next;
+    }
+    return false;
+}
+int main(){
+    vector<int> arr= {2,3,42,5};
+    Node* head = convertarr2LL(arr);
+    if(exists(head,5)){
+        cout<< "YES";
+    } 
+    else
+    {
+         cout << "NO";
+    }
+    return 0;
+}
