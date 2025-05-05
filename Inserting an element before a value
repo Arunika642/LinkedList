@@ -1,0 +1,110 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node{
+    public:
+       int data;
+       Node* next;
+       
+       Node(int data1)
+       {
+           data = data1;
+           next = nullptr;
+       }
+       
+       Node(int data1, Node* next1)
+       {
+           data = data1;
+           next = next1;
+       }
+};
+
+Node* convertarr2LL(vector<int> arr)
+{
+    if(arr.empty()) return nullptr;
+    
+    Node* head = new Node(arr[0]);
+    Node* mover = head;
+    
+    for(int i=1;i<arr.size();i++)
+    {
+        Node* temp = new Node(arr[i]);
+        mover->next = temp;
+        mover = temp;
+    }
+    return head;
+}
+
+void print(Node* head)
+{
+  if(head == nullptr) {
+        cout << "List is empty\n";
+        return;
+    }
+
+    
+    Node* temp = head;
+    while(temp!=nullptr)
+    {
+        cout << temp->data << " ";
+        temp= temp->next;
+    }
+}
+
+Node* insertAtK(int K, int val, Node* head)
+{
+    if(K==1)
+    {
+        Node* temp = new Node(val,head);
+        return temp;
+    }
+    int count=0;
+    Node* temp = head;
+    while(temp!= NULL)
+    {
+        count++;
+        if(count == (K-1))
+        {
+            Node* newNode = new Node(val,temp->next);
+            temp->next = newNode;
+            break;
+        }
+        temp = temp->next;
+    }
+    return head;
+}
+
+
+Node* insertBeforeValue(int val, int K, Node* head)
+{
+    if(head->data==val)
+    {
+        Node* newNode = new Node(K,head);
+        return newNode;
+    }
+  
+    Node* temp = head;
+    while(temp->next!= NULL)
+    {
+        if(temp->next->data == val)
+        {
+            Node* newNode = new Node(K,temp->next);
+            temp->next = newNode;
+            break;
+        }
+        temp = temp->next;
+    }
+    return head;
+}
+int main() {
+    vector<int> arr = {1,2,3,4,5};
+    Node* head = convertarr2LL(arr);
+ 
+    int K;
+    cin >> K;
+    int val;
+    cin >> val;
+    
+    head = insertBeforeValue(val,K,head);
+    print(head);
+}
