@@ -1,0 +1,83 @@
+class Solution {
+public:
+    bool isSorted(ListNode* head)
+    {
+        if(head==NULL || head->next==NULL) return true;
+        ListNode* temp = head;
+        while(temp->next!=NULL)
+        {
+            if(temp->val > temp->next->val)
+               return false;
+            temp = temp->next;
+        }
+        return true;
+    }
+    ListNode* merge(ListNode* list1, ListNode* list2)
+    {
+        if(list1==NULL) return list2;
+        if(list2==NULL) return list1;
+        ListNode* t1 = list1;
+        ListNode* t2 = list2;
+        ListNode* dummyNode = new ListNode(-1);
+        dummyNode->next = NULL;
+        ListNode* temp = dummyNode;
+        while(t1!=NULL && t2!=NULL)
+        {
+            if(t1->val < t2->val)
+            {
+                temp->next = t1;
+                temp = t1;
+                t1=t1->next;
+            }
+            else
+            {
+                temp->next = t2;
+                temp = t2;
+                t2 = t2->next;
+            }
+        }
+        while(t1)
+        {
+            temp->next = t1;
+            temp = t1;
+            t1=t1->next;
+        }
+        while(t2)
+        {
+            temp->next = t2;
+            temp = t2;
+            t2=t2->next;
+        }
+        return dummyNode->next;
+    }
+    ListNode* middle(ListNode* head)
+    {
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        return slow;
+    }
+    ListNode* ms(ListNode* head)
+    {
+        if(head==NULL || head->next==NULL) return head;
+        ListNode* mid = middle(head);
+        ListNode* leftHead = head;
+        ListNode* rightHead = mid->next;
+        mid->next = NULL;
+        leftHead = ms(leftHead);
+        rightHead = ms(rightHead);
+        return merge(leftHead,rightHead);
+    }
+    ListNode* sortList(ListNode* head) {
+        if(isSorted(head))
+        {
+            return head;
+        }
+        ListNode* ans = ms(head);
+        return ans;
+    }
+};
