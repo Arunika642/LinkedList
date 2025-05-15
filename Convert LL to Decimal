@@ -1,3 +1,10 @@
+//O(n) + O(n log n)
+// power takes O(log n)
+// O(n)-length
+// O(n)*O(log n)- second pass and power function
+// So Total TC = O(n)+O(nlogn) in which we ignore O(n)
+// =O(NlogN)
+
 class Solution {
 public:
  
