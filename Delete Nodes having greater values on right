@@ -1,0 +1,44 @@
+class Solution {
+  public:
+  
+    Node* reverse(Node* head)
+    {
+        if(head==NULL || head->next==NULL)
+        {
+            return head;
+        }
+        
+        Node* newNode = head;
+        newNode = reverse(head->next);
+        Node* front = head->next;
+        front->next = head;
+        head->next = NULL;
+        
+        return newNode;
+        
+    }
+    Node *compute(Node *head) {
+        // your code goes here
+        head = reverse(head);
+        Node* t1 = head;
+        int largest = head->data;
+        Node* dummyNode = new Node(-1);
+        dummyNode->next = NULL;
+        Node* temp = dummyNode;
+        while(t1!=NULL)
+        {
+            if(t1->data>=largest)
+            {
+                Node* newNode = new Node(t1->data);
+                temp->next = newNode;
+                temp = newNode;
+                largest = t1->data;
+                
+            }
+            t1=t1->next;
+        }
+        
+        temp = reverse(dummyNode->next);
+        return temp;
+    }
+};
