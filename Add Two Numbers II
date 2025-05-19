@@ -1,0 +1,88 @@
+class Solution {
+public:
+    
+    ListNode* reverse(ListNode* head)
+    {
+        if(head==NULL || head-> next == NULL) return head;
+        ListNode* newHead = reverse(head->next);
+        ListNode* front = head->next;
+        front->next = head;
+        head->next = NULL;
+        return newHead;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        l1 = reverse(l1);
+        l2 = reverse(l2);
+        ListNode* t1 = l1;
+        ListNode* t2 = l2;
+        int carry = 0;
+        ListNode* dummyNode = new ListNode(-1);
+        dummyNode->next = NULL;
+        ListNode* temp = dummyNode;
+        while(t1!=NULL && t2!=NULL)
+        {
+            int sum = t1->val + t2->val + carry;
+            if(sum>=10)
+            {
+                ListNode* newNode = new ListNode(sum%10);
+                temp->next = newNode;
+                temp = newNode;
+                carry=1;
+            }
+            else
+            {
+                ListNode* newNode = new ListNode(sum);
+                temp->next = newNode;
+                temp = newNode;
+                carry = 0;
+            }
+            t1=t1->next;
+            t2=t2->next;
+        }
+        while(t1)
+        {
+            int sum = t1->val + carry;
+            if(sum>=10)
+            {
+                ListNode* newNode = new ListNode(sum%10);
+                temp->next = newNode;
+                temp = newNode;
+                carry = 1;
+            }
+            else
+            {
+                ListNode* newNode = new ListNode(sum);
+                temp->next = newNode;
+                temp = newNode;
+                carry = 0;
+            }
+            t1=t1->next;
+        }
+        while(t2)
+        {
+            int sum = t2->val + carry;
+            if(sum>=10)
+            {
+                ListNode* newNode = new ListNode(sum%10);
+                temp->next = newNode;
+                temp = newNode;
+                carry = 1;
+            }
+            else
+            {
+                ListNode* newNode = new ListNode(sum);
+                temp->next = newNode;
+                temp = newNode;
+                carry = 0;
+            }
+            t2 = t2->next;
+        }
+        if(carry == 1)
+        {
+            ListNode* newNode = new ListNode(1);
+            temp->next = newNode;
+            temp = newNode;
+        }
+        return reverse(dummyNode->next);
+    }
+};
